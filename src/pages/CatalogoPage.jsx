@@ -8,6 +8,12 @@ import { getAllProducts, filterByCategory } from '../data/allProducts'
 const SANS = '"Jost", sans-serif'
 const SERIF = '"Cormorant Garamond", serif'
 
+const COLORS = {
+  snow: '#FFFCFE',
+  gold: '#E2BB00',
+  black: '#010001',
+}
+
 export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeFilter, setActiveFilter] = useState('todo')
@@ -21,8 +27,9 @@ export default function CatalogPage() {
     else setActiveFilter('todo')
   }, [searchParams])
 
-  const filteredProducts =
-    activeFilter === 'todo' ? allProducts : filterByCategory(allProducts, activeFilter)
+  const filteredProducts = activeFilter === 'todo' 
+    ? allProducts 
+    : filterByCategory(allProducts, activeFilter)
 
   const handleFilterClick = (filter) => {
     setActiveFilter(filter)
@@ -33,10 +40,13 @@ export default function CatalogPage() {
     }
   }
 
+  const cafeCount = filterByCategory(allProducts, 'cafe').length
+  const cervezaCount = filterByCategory(allProducts, 'cerveza').length
+
   const filters = [
     { id: 'todo', label: 'Todo', count: allProducts.length },
-    { id: 'cafe', label: 'Café', count: filterByCategory(allProducts, 'cafe').length },
-    { id: 'cerveza', label: 'Cerveza', count: filterByCategory(allProducts, 'cerveza').length },
+    { id: 'cafe', label: 'Café', count: cafeCount },
+    { id: 'cerveza', label: 'Cerveza', count: cervezaCount },
   ]
 
   return (
@@ -46,15 +56,15 @@ export default function CatalogPage() {
           position: sticky;
           top: 85px;
           z-index: 50;
-          background: #F5F0E8;
-          padding: clamp(20px, 4vw, 32px) clamp(20px, 6%, 80px);
-          border-bottom: 2px solid #C89B3C;
+          background: ${COLORS.snow};
+          padding: clamp(16px, 3vw, 24px) clamp(20px, 6%, 80px);
+          border-bottom: 2px solid ${COLORS.gold};
           box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .filter-btn {
           background: transparent;
-          border: 2px solid #C89B3C;
-          color: #2A1810;
+          border: 2px solid ${COLORS.gold};
+          color: ${COLORS.black};
           padding: 12px 24px;
           font-size: 12px;
           letter-spacing: 2px;
@@ -69,28 +79,26 @@ export default function CatalogPage() {
           min-width: 0;
         }
         .filter-btn.active {
-          background: #C89B3C;
-          color: #fff;
+          background: ${COLORS.gold};
+          color: ${COLORS.black};
         }
         .filter-btn:hover:not(.active) {
-          background: rgba(200,155,60,0.1);
+          background: ${COLORS.gold}20;
         }
         .filter-badge {
-          background: rgba(255,255,255,0.3);
+          background: rgba(0,0,0,0.15);
           padding: 2px 8px;
           border-radius: 12px;
           font-size: 11px;
           font-weight: 600;
         }
         .filter-btn.active .filter-badge {
-          background: rgba(255,255,255,0.2);
+          background: rgba(0,0,0,0.2);
         }
         
-        /* Mobile optimizations */
         @media (max-width: 768px) {
           .catalog-filters {
-            padding: 16px 20px;
-            top: 85px;
+            padding: 14px 20px;
           }
           .filter-btn {
             padding: 10px 16px;
@@ -98,10 +106,6 @@ export default function CatalogPage() {
             letter-spacing: 1.5px;
             flex: 1;
             justify-content: center;
-          }
-          .filter-badge {
-            padding: 2px 6px;
-            font-size: 10px;
           }
         }
         
@@ -113,7 +117,6 @@ export default function CatalogPage() {
             padding: 8px 12px;
             font-size: 10px;
             letter-spacing: 1px;
-            gap: 6px;
           }
         }
       `}</style>
@@ -122,7 +125,7 @@ export default function CatalogPage() {
       <section
         style={{
           minHeight: '50vh',
-          background: 'linear-gradient(135deg, #2A1810 0%, #3D2A1F 100%)',
+          background: `linear-gradient(135deg, ${COLORS.black} 0%, #1A1A1A 100%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -140,7 +143,7 @@ export default function CatalogPage() {
               fontFamily: SERIF,
               fontWeight: 300,
               fontStyle: 'italic',
-              color: '#C89B3C',
+              color: COLORS.gold,
               letterSpacing: '3px',
               marginBottom: '24px',
               lineHeight: 1.1,
@@ -156,7 +159,7 @@ export default function CatalogPage() {
             style={{
               width: '100px',
               height: '3px',
-              background: '#C89B3C',
+              background: COLORS.gold,
               margin: '0 auto 32px',
             }}
           />
@@ -167,7 +170,7 @@ export default function CatalogPage() {
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{
               fontSize: 'clamp(0.95rem,1.8vw,1.1rem)',
-              color: 'rgba(245,240,232,0.85)',
+              color: COLORS.snow,
               letterSpacing: '0.5px',
               lineHeight: 1.9,
               fontFamily: SANS,
@@ -178,7 +181,7 @@ export default function CatalogPage() {
         </div>
       </section>
 
-      {/* Compact Filters */}
+      {/* Filters */}
       <div className="catalog-filters">
         <div
           style={{
@@ -204,7 +207,7 @@ export default function CatalogPage() {
       </div>
 
       {/* Products Grid */}
-      <section style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,6%,80px)', background: '#fff' }}>
+      <section style={{ padding: 'clamp(60px,10vw,100px) clamp(20px,6%,80px)', background: '#FAFAFA' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -221,7 +224,7 @@ export default function CatalogPage() {
                 fontFamily: SERIF,
                 fontWeight: 300,
                 fontStyle: 'italic',
-                color: '#2A1810',
+                color: COLORS.black,
                 letterSpacing: '1px',
                 marginBottom: '12px',
               }}
@@ -233,7 +236,7 @@ export default function CatalogPage() {
             <div
               style={{
                 fontSize: '14px',
-                color: '#7A6A5D',
+                color: '#4A4A4A',
                 letterSpacing: '0.5px',
                 fontFamily: SANS,
               }}
@@ -242,33 +245,26 @@ export default function CatalogPage() {
             </div>
           </motion.div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))',
-              gap: 'clamp(30px,5vw,40px)',
-            }}
-          >
-            {filteredProducts.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-              >
-                <ProductCard product={product} index={i} />
-              </motion.div>
-            ))}
-          </div>
-
-          {filteredProducts.length === 0 && (
+          {filteredProducts.length > 0 ? (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
+                gap: 'clamp(30px,5vw,40px)',
+              }}
+            >
+              {filteredProducts.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          ) : (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               style={{
                 textAlign: 'center',
                 padding: '80px 20px',
-                color: '#7A6A5D',
+                color: '#4A4A4A',
                 fontFamily: SANS,
               }}
             >

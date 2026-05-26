@@ -4,25 +4,20 @@ import { useNavigate } from 'react-router-dom'
 const SANS = '"Jost", sans-serif'
 const SERIF = '"Cormorant Garamond", serif'
 
+const COLORS = {
+  snow: '#FFFCFE',
+  gold: '#E2BB00',
+  black: '#010001',
+}
+
 export default function ProductCard({ product, index = 0 }) {
   const navigate = useNavigate()
-  const isKottabos = product.brand === 'kottabos'
-  const isMorettino = product.brand === 'morettino'
-
-  const brandColors = {
-    morettino: {
-      primary: '#d6c1ab',
-      bg: '#faf7f2',
-      text: '#2A1810',
-    },
-    kottabos: {
-      primary: '#e2bb00',
-      bg: '#000',
-      text: '#fff',
-    },
+  
+  if (!product || !product.id) {
+    return null
   }
 
-  const colors = brandColors[product.brand] || brandColors.morettino
+  const isKottabos = product.brand === 'kottabos'
 
   return (
     <motion.div
@@ -32,7 +27,7 @@ export default function ProductCard({ product, index = 0 }) {
       whileHover={{ y: -6 }}
       onClick={() => navigate(`/producto/${product.id}`)}
       style={{
-        background: colors.bg,
+        background: isKottabos ? COLORS.black : COLORS.snow,
         padding: 'clamp(24px,4vw,32px)',
         cursor: 'pointer',
         position: 'relative',
@@ -41,7 +36,8 @@ export default function ProductCard({ product, index = 0 }) {
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: isKottabos ? '520px' : '460px',
+        minHeight: '580px',
+        border: `2px solid ${COLORS.gold}`,
       }}
     >
       {/* Brand Badge */}
@@ -50,8 +46,8 @@ export default function ProductCard({ product, index = 0 }) {
           position: 'absolute',
           top: '16px',
           left: '16px',
-          background: colors.primary,
-          color: isKottabos ? '#000' : '#fff',
+          background: COLORS.gold,
+          color: COLORS.black,
           padding: '6px 12px',
           fontSize: '10px',
           letterSpacing: '2px',
@@ -61,13 +57,13 @@ export default function ProductCard({ product, index = 0 }) {
           zIndex: 2,
         }}
       >
-        {product.brand === 'morettino' ? 'CAFÉ' : 'CERVEZA'}
+        {isKottabos ? 'CERVEZA' : 'CAFÉ'}
       </div>
 
       {/* Radial glow effect */}
       <motion.div
         animate={{
-          opacity: [0.2, 0.4, 0.2],
+          opacity: [0.1, 0.2, 0.1],
           scale: [0.8, 1, 0.8],
         }}
         transition={{
@@ -80,9 +76,9 @@ export default function ProductCard({ product, index = 0 }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: isKottabos ? '280px' : '220px',
-          height: isKottabos ? '280px' : '220px',
-          background: `radial-gradient(circle, ${colors.primary}40 0%, transparent 70%)`,
+          width: '240px',
+          height: '240px',
+          background: `radial-gradient(circle, ${COLORS.gold}40 0%, transparent 70%)`,
           pointerEvents: 'none',
           zIndex: 0,
         }}
@@ -102,7 +98,7 @@ export default function ProductCard({ product, index = 0 }) {
         }}
         style={{
           position: 'relative',
-          height: isKottabos ? 'clamp(340px, 40vw, 420px)' : 'clamp(260px, 32vw, 320px)',
+          height: '320px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -114,8 +110,8 @@ export default function ProductCard({ product, index = 0 }) {
           src={product.image}
           alt={product.name}
           style={{
-            width: '100%',
-            height: '100%',
+            maxWidth: '100%',
+            maxHeight: '100%',
             objectFit: 'contain',
             filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.2))',
           }}
@@ -123,16 +119,15 @@ export default function ProductCard({ product, index = 0 }) {
       </motion.div>
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto' }}>
+      <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {/* Code/Style */}
         {(product.code || product.style) && (
           <div
             style={{
               fontSize: '11px',
               letterSpacing: '2px',
-              color: colors.primary,
+              color: COLORS.gold,
               textTransform: 'uppercase',
-              marginBottom: '12px',
               fontFamily: SANS,
               fontWeight: 500,
             }}
@@ -150,8 +145,7 @@ export default function ProductCard({ product, index = 0 }) {
             fontFamily: SERIF,
             fontWeight: 300,
             fontStyle: 'italic',
-            color: colors.text,
-            marginBottom: '16px',
+            color: isKottabos ? COLORS.snow : COLORS.black,
             letterSpacing: '0.5px',
             lineHeight: 1.2,
           }}
@@ -161,22 +155,15 @@ export default function ProductCard({ product, index = 0 }) {
 
         {/* Beer specs */}
         {isKottabos && (product.abv || product.ibu) && (
-          <div
-            style={{
-              display: 'flex',
-              gap: '12px',
-              marginBottom: '16px',
-              flexWrap: 'wrap',
-            }}
-          >
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             {product.abv && (
               <div
                 style={{
                   padding: '4px 10px',
-                  border: `1px solid ${colors.primary}50`,
+                  border: `1px solid ${COLORS.gold}50`,
                   fontSize: '11px',
                   letterSpacing: '1px',
-                  color: colors.primary,
+                  color: COLORS.gold,
                   fontFamily: SANS,
                   fontWeight: 500,
                 }}
@@ -188,10 +175,10 @@ export default function ProductCard({ product, index = 0 }) {
               <div
                 style={{
                   padding: '4px 10px',
-                  border: `1px solid ${colors.primary}50`,
+                  border: `1px solid ${COLORS.gold}50`,
                   fontSize: '11px',
                   letterSpacing: '1px',
-                  color: colors.primary,
+                  color: COLORS.gold,
                   fontFamily: SANS,
                   fontWeight: 500,
                 }}
@@ -208,15 +195,17 @@ export default function ProductCard({ product, index = 0 }) {
             style={{
               fontSize: '14px',
               lineHeight: 1.8,
-              color: isKottabos ? 'rgba(255,255,255,0.7)' : '#5A4A3D',
-              marginBottom: '20px',
+              color: isKottabos ? `${COLORS.snow}B3` : '#4A4A4A',
               fontFamily: SANS,
               letterSpacing: '0.3px',
+              minHeight: '50px',
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
             }}
           >
-            {product.description.length > 120
-              ? product.description.substring(0, 120) + '...'
-              : product.description}
+            {product.description}
           </p>
         )}
 
@@ -226,14 +215,14 @@ export default function ProductCard({ product, index = 0 }) {
           style={{
             fontSize: '12px',
             letterSpacing: '2px',
-            color: colors.primary,
+            color: COLORS.gold,
             textTransform: 'uppercase',
             fontFamily: SANS,
             fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            marginTop: '16px',
+            marginTop: '8px',
           }}
         >
           Ver Detalles

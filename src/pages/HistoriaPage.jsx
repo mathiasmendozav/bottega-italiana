@@ -6,8 +6,15 @@ import Footer from '../components/Footer'
 const SANS = '"Jost", sans-serif'
 const SERIF = '"Cormorant Garamond", serif'
 
-/* ── Fleur de Lis ────────────────────────────────────────── */
-function FleurDeLis({ size = 24, color = '#C89B3C' }) {
+const COLORS = {
+  snow: '#FFFCFE',
+  inferno: '#AB0502',
+  green: '#0C7A2A',
+  black: '#010001',
+  gold: '#E2BB00',
+}
+
+function FleurDeLis({ size = 24, color = COLORS.gold }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
       <path d="M12 2C11 2 10 3 10 4C10 5 11 6 12 6C13 6 14 5 14 4C14 3 13 2 12 2M7 7C6 7 5 8 5 9C5 10 6 11 7 11C8 11 9 10 9 9C9 8 8 7 7 7M17 7C16 7 15 8 15 9C15 10 16 11 17 11C18 11 19 10 19 9C19 8 18 7 17 7M12 8C10 8 9 10 9 12C9 13 9 14 8 14C7 14 7 13 7 12C7 11 7 9 8 8C7 8 6 9 6 10C6 12 7 13 8 14C9 15 10 15 11 15L11 20C11 21 11 22 12 22C13 22 13 21 13 20L13 15C14 15 15 15 16 14C17 13 18 12 18 10C18 9 17 8 16 8C17 9 17 11 17 12C17 13 17 14 16 14C15 14 15 13 15 12C15 10 14 8 12 8Z" />
@@ -15,7 +22,7 @@ function FleurDeLis({ size = 24, color = '#C89B3C' }) {
   )
 }
 
-/* ── Animated Hero ──────────────────────────────────────── */
+/* ── Animated Hero ────────────────────────────────────────*/
 function AnimatedHero() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
@@ -32,7 +39,7 @@ function AnimatedHero() {
       style={{
         position: 'relative',
         minHeight: '85vh',
-        background: 'linear-gradient(135deg, #2A1810 0%, #3D2A1F 50%, #2A1810 100%)',
+        background: `linear-gradient(135deg, ${COLORS.black} 0%, #1A1A1A 100%)`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -40,26 +47,6 @@ function AnimatedHero() {
         padding: 'clamp(140px,18vw,180px) clamp(20px,6%,80px) clamp(80px,10vw,100px)',
       }}
     >
-      {/* Animated grid pattern */}
-      <motion.div
-        animate={{
-          backgroundPosition: ['0% 0%', '100% 100%'],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'linear',
-        }}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          opacity: 0.03,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C89B3C' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '60px 60px',
-        }}
-      />
-
       {/* Diagonal lines decoration */}
       {[...Array(4)].map((_, i) => (
         <motion.div
@@ -73,7 +60,7 @@ function AnimatedHero() {
             top: `${20 + i * 20}%`,
             width: '100%',
             height: '1px',
-            background: `linear-gradient(90deg, transparent 0%, #C89B3C 50%, transparent 100%)`,
+            background: `linear-gradient(90deg, transparent 0%, ${COLORS.gold} 50%, transparent 100%)`,
             transformOrigin: 'left',
           }}
         />
@@ -86,7 +73,7 @@ function AnimatedHero() {
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 1, type: 'spring', stiffness: 100 }}
           >
-            <FleurDeLis size={40} color="#C89B3C" />
+            <FleurDeLis size={40} />
           </motion.div>
 
           <motion.h1
@@ -98,7 +85,7 @@ function AnimatedHero() {
               fontSize: 'clamp(3.5rem,9vw,7rem)',
               fontWeight: 300,
               fontStyle: 'italic',
-              color: '#F5F0E8',
+              color: COLORS.gold,
               letterSpacing: '3px',
               marginTop: '32px',
               marginBottom: '40px',
@@ -108,7 +95,7 @@ function AnimatedHero() {
             Nuestra Historia
           </motion.h1>
 
-          {/* Italian flag divider with animation */}
+          {/* Italian flag divider */}
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -120,7 +107,7 @@ function AnimatedHero() {
               marginBottom: '40px',
             }}
           >
-            {['#009246', '#fff', '#CE2B37'].map((color, i) => (
+            {[COLORS.green, COLORS.snow, COLORS.inferno].map((color, i) => (
               <motion.div
                 key={i}
                 initial={{ height: 0 }}
@@ -138,7 +125,7 @@ function AnimatedHero() {
             style={{
               fontFamily: SANS,
               fontSize: 'clamp(1rem,2vw,1.2rem)',
-              color: 'rgba(245,240,232,0.85)',
+              color: COLORS.snow,
               letterSpacing: '1px',
               lineHeight: 2,
             }}
@@ -151,10 +138,10 @@ function AnimatedHero() {
   )
 }
 
-/* ── Bottega Story FIXED ────────────────────────────────── */
+/* ── Bottega Story ──────────────────────────────────────── */
 function BottegaStory() {
   return (
-    <section style={{ padding: 'clamp(120px,15vw,180px) clamp(20px,6%,80px)', background: '#fff' }}>
+    <section style={{ padding: 'clamp(120px,15vw,180px) clamp(20px,6%,80px)', background: COLORS.snow }}>
       <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
         <div
           style={{
@@ -185,8 +172,8 @@ function BottegaStory() {
                 width: '100%',
                 maxWidth: '550px',
                 aspectRatio: '1',
-                background: 'linear-gradient(135deg, #F5F0E8 0%, #E8DFD0 100%)',
-                border: '4px solid #C89B3C',
+                background: `linear-gradient(135deg, ${COLORS.snow} 0%, #F5F0E8 100%)`,
+                border: `4px solid ${COLORS.gold}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -195,12 +182,13 @@ function BottegaStory() {
               }}
             >
               <img
-                src="/images/bottega/BottegaItalianaLogo.jpeg"
+                src="/images/bottega/logo.png"
                 alt="Bottega Italiana"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'contain',
+                  borderRadius: '50%',
                 }}
               />
             </motion.div>
@@ -228,7 +216,7 @@ function BottegaStory() {
                 fontFamily: SERIF,
                 fontWeight: 300,
                 fontStyle: 'italic',
-                color: '#2A1810',
+                color: COLORS.black,
                 lineHeight: 1.15,
                 marginBottom: '32px',
                 letterSpacing: '1px',
@@ -245,7 +233,7 @@ function BottegaStory() {
               style={{
                 width: '100px',
                 height: '3px',
-                background: '#C89B3C',
+                background: COLORS.gold,
                 marginBottom: '32px',
                 transformOrigin: 'left',
               }}
@@ -259,7 +247,7 @@ function BottegaStory() {
               style={{
                 fontSize: '16px',
                 lineHeight: 2,
-                color: '#5A4A3D',
+                color: '#4A4A4A',
                 fontWeight: 400,
                 marginBottom: '24px',
                 fontFamily: SANS,
@@ -278,7 +266,7 @@ function BottegaStory() {
               style={{
                 fontSize: '16px',
                 lineHeight: 2,
-                color: '#5A4A3D',
+                color: '#4A4A4A',
                 fontWeight: 400,
                 fontFamily: SANS,
                 letterSpacing: '0.5px',
@@ -294,7 +282,7 @@ function BottegaStory() {
   )
 }
 
-/* ── Johanna Section with Animations ────────────────────── */
+/* ── Johanna Section ────────────────────────────────────── */
 function JohannaSection() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
@@ -305,7 +293,7 @@ function JohannaSection() {
   const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8])
 
   return (
-    <section ref={ref} style={{ padding: 'clamp(120px,15vw,180px) clamp(20px,6%,80px)', background: '#F5F0E8' }}>
+    <section ref={ref} style={{ padding: 'clamp(120px,15vw,180px) clamp(20px,6%,80px)', background: '#FAFAFA' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div className="grid-2 two-col-reverse">
           <div>
@@ -328,7 +316,7 @@ function JohannaSection() {
                 fontFamily: SERIF,
                 fontWeight: 300,
                 fontStyle: 'italic',
-                color: '#2A1810',
+                color: COLORS.black,
                 lineHeight: 1.2,
                 marginTop: '20px',
                 marginBottom: '24px',
@@ -346,7 +334,7 @@ function JohannaSection() {
               style={{
                 fontSize: '13px',
                 letterSpacing: '3px',
-                color: '#C89B3C',
+                color: COLORS.gold,
                 textTransform: 'uppercase',
                 marginBottom: '32px',
                 fontFamily: SANS,
@@ -369,7 +357,7 @@ function JohannaSection() {
                 style={{
                   fontSize: '16px',
                   lineHeight: 2,
-                  color: '#5A4A3D',
+                  color: '#4A4A4A',
                   fontWeight: 400,
                   marginBottom: '24px',
                   fontFamily: SANS,
@@ -385,11 +373,11 @@ function JohannaSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(200,155,60,0.2)' }}
+              whileHover={{ scale: 1.02, boxShadow: `0 10px 30px ${COLORS.gold}40` }}
               style={{
                 padding: '28px 32px',
-                background: 'rgba(200,155,60,0.08)',
-                border: '2px solid #C89B3C',
+                background: `${COLORS.gold}15`,
+                border: `2px solid ${COLORS.gold}`,
                 marginTop: '32px',
                 transition: 'all 0.3s ease',
               }}
@@ -398,7 +386,7 @@ function JohannaSection() {
                 style={{
                   fontSize: '13px',
                   letterSpacing: '2px',
-                  color: '#C89B3C',
+                  color: COLORS.gold,
                   textTransform: 'uppercase',
                   marginBottom: '12px',
                   fontFamily: SANS,
@@ -410,7 +398,7 @@ function JohannaSection() {
               <div
                 style={{
                   fontSize: '14px',
-                  color: '#5A4A3D',
+                  color: '#4A4A4A',
                   lineHeight: 1.8,
                   fontFamily: SANS,
                   letterSpacing: '0.5px',
@@ -436,7 +424,7 @@ function JohannaSection() {
                 position: 'relative',
                 height: 'clamp(500px,58vw,700px)',
                 overflow: 'hidden',
-                border: '4px solid #C89B3C',
+                border: `4px solid ${COLORS.gold}`,
                 boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
               }}
             >
@@ -450,28 +438,6 @@ function JohannaSection() {
                 }}
               />
             </motion.div>
-
-            {/* Decorative corner elements */}
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-                rotate: [0, 5, 0],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              style={{
-                position: 'absolute',
-                top: '-15px',
-                right: '-15px',
-                width: '80px',
-                height: '80px',
-                border: '3px solid #C89B3C',
-                borderRadius: '50%',
-              }}
-            />
           </motion.div>
         </div>
       </div>
@@ -479,10 +445,12 @@ function JohannaSection() {
   )
 }
 
-/* ── Values Section with Stagger ────────────────────────── */
+/* ── Values Section ─────────────────────────────────────── */
 function ValuesSection() {
+  const navigate = useNavigate()
+
   return (
-    <section style={{ padding: 'clamp(120px,14vw,160px) clamp(20px,6%,80px)', background: '#2A1810' }}>
+    <section style={{ padding: 'clamp(120px,14vw,160px) clamp(20px,6%,80px)', background: COLORS.black }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -490,12 +458,7 @@ function ValuesSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          >
-            <FleurDeLis size={36} color="#C89B3C" />
-          </motion.div>
+          <FleurDeLis size={36} />
 
           <h2
             style={{
@@ -503,7 +466,7 @@ function ValuesSection() {
               fontFamily: SERIF,
               fontWeight: 300,
               fontStyle: 'italic',
-              color: '#F5F0E8',
+              color: COLORS.gold,
               lineHeight: 1.2,
               marginTop: '32px',
               marginBottom: '24px',
@@ -521,7 +484,7 @@ function ValuesSection() {
             style={{
               width: '100px',
               height: '3px',
-              background: '#C89B3C',
+              background: COLORS.gold,
               margin: '0 auto 60px',
               transformOrigin: 'center',
             }}
@@ -537,9 +500,9 @@ function ValuesSection() {
           }}
         >
           {[
-            { title: 'Calidad Premium', desc: 'Solo importamos productos de la más alta calidad artesanal', icon: '◆' },
-            { title: 'Autenticidad', desc: 'Productos 100% italianos con certificados de origen', icon: '◆' },
-            { title: 'Servicio Personalizado', desc: 'Atención dedicada y asesoramiento experto', icon: '◆' },
+            { title: 'Calidad Premium', desc: 'Solo importamos productos de la más alta calidad artesanal' },
+            { title: 'Autenticidad', desc: 'Productos 100% italianos con certificados de origen' },
+            { title: 'Servicio Personalizado', desc: 'Atención dedicada y asesoramiento experto' },
           ].map((v, i) => (
             <motion.div
               key={v.title}
@@ -550,31 +513,14 @@ function ValuesSection() {
               whileHover={{ y: -10, scale: 1.03 }}
               style={{
                 padding: '50px 35px',
-                background: 'rgba(200,155,60,0.05)',
-                border: '2px solid #C89B3C',
+                background: `${COLORS.gold}10`,
+                border: `2px solid ${COLORS.gold}`,
                 transition: 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
                 cursor: 'pointer',
                 position: 'relative',
                 overflow: 'hidden',
               }}
             >
-              {/* Background glow effect */}
-              <motion.div
-                animate={{
-                  opacity: [0.05, 0.15, 0.05],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `radial-gradient(circle at center, #C89B3C 0%, transparent 70%)`,
-                }}
-              />
-
               <motion.div
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -582,7 +528,7 @@ function ValuesSection() {
                 transition={{ duration: 0.6, delay: i * 0.15 + 0.3, type: 'spring' }}
                 style={{ position: 'relative', zIndex: 2 }}
               >
-                <FleurDeLis size={24} color="#C89B3C" />
+                <FleurDeLis size={24} />
               </motion.div>
 
               <div
@@ -591,7 +537,7 @@ function ValuesSection() {
                   fontFamily: SERIF,
                   fontWeight: 300,
                   fontStyle: 'italic',
-                  color: '#C89B3C',
+                  color: COLORS.gold,
                   marginTop: '24px',
                   marginBottom: '20px',
                   letterSpacing: '0.5px',
@@ -606,7 +552,7 @@ function ValuesSection() {
                 style={{
                   fontSize: '15px',
                   lineHeight: 2,
-                  color: 'rgba(245,240,232,0.85)',
+                  color: COLORS.snow,
                   fontFamily: SANS,
                   letterSpacing: '0.5px',
                   position: 'relative',
@@ -618,126 +564,23 @@ function ValuesSection() {
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
-  )
-}
 
-/* ── CTA Section with Animations ────────────────────────── */
-function CatalogCTA() {
-  const navigate = useNavigate()
-
-  return (
-    <section
-      style={{
-        padding: 'clamp(120px,15vw,180px) clamp(20px,6%,80px)',
-        background: 'linear-gradient(135deg, #fff 0%, #F5F0E8 100%)',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Animated background lines */}
-      {[...Array(3)].map((_, i) => (
+        {/* CTA */}
         <motion.div
-          key={i}
-          animate={{
-            x: ['-100%', '100%'],
-          }}
-          transition={{
-            duration: 15 + i * 5,
-            repeat: Infinity,
-            ease: 'linear',
-            delay: i * 2,
-          }}
-          style={{
-            position: 'absolute',
-            top: `${30 + i * 25}%`,
-            width: '50%',
-            height: '1px',
-            background: `linear-gradient(90deg, transparent 0%, #C89B3C 50%, transparent 100%)`,
-            opacity: 0.15,
-          }}
-        />
-      ))}
-
-      <div style={{ maxWidth: '900px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          style={{ marginTop: '80px' }}
         >
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 5, -5, 0],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <FleurDeLis size={36} />
-          </motion.div>
-
-          <h2
-            style={{
-              fontSize: 'clamp(2.8rem,6.5vw,4.5rem)',
-              fontFamily: SERIF,
-              fontWeight: 300,
-              fontStyle: 'italic',
-              color: '#2A1810',
-              lineHeight: 1.2,
-              marginTop: '32px',
-              marginBottom: '32px',
-              letterSpacing: '2px',
-            }}
-          >
-            Descubre Nuestros Productos
-          </h2>
-
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            style={{
-              width: '120px',
-              height: '3px',
-              background: '#C89B3C',
-              margin: '0 auto 40px',
-              transformOrigin: 'center',
-            }}
-          />
-
-          <p
-            style={{
-              fontSize: '17px',
-              lineHeight: 2,
-              color: '#5A4A3D',
-              fontWeight: 400,
-              marginBottom: '56px',
-              fontFamily: SANS,
-              letterSpacing: '0.5px',
-            }}
-          >
-            Explora nuestra selección de café Morettino y cervezas Kottabos
-          </p>
-
           <motion.button
             onClick={() => navigate('/catalogo')}
-            whileHover={{ scale: 1.08, boxShadow: '0 15px 40px rgba(200,155,60,0.3)' }}
+            whileHover={{ scale: 1.08, boxShadow: `0 15px 40px ${COLORS.gold}60` }}
             whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
             style={{
-              background: '#C89B3C',
-              border: '3px solid #C89B3C',
-              color: '#fff',
+              background: COLORS.gold,
+              border: `3px solid ${COLORS.gold}`,
+              color: COLORS.black,
               padding: '20px 50px',
               fontSize: '13px',
               letterSpacing: '3px',
@@ -745,7 +588,6 @@ function CatalogCTA() {
               fontFamily: SANS,
               fontWeight: 600,
               cursor: 'pointer',
-              borderRadius: '0',
               transition: 'all 0.3s ease',
             }}
           >
@@ -789,7 +631,6 @@ export default function HistoriaPage() {
       <BottegaStory />
       <JohannaSection />
       <ValuesSection />
-      <CatalogCTA />
       <Footer />
     </>
   )
