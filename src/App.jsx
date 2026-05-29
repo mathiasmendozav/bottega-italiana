@@ -7,6 +7,7 @@ import HistoriaPage from './pages/HistoriaPage'
 import MorettinoPage from './pages/MorettinoPage'
 import KottabosPage from './pages/KottabosPage'
 import ProductoPage from './pages/ProductoPage'
+import XLVIPage from './pages/XLVIPage'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/catalogo" element={<CatalogoPage />} />
         <Route path="/historia" element={<HistoriaPage />} />
+        <Route path="/xlvi" element={<XLVIPage />} />
         <Route path="/morettino" element={<MorettinoPage />} />
         <Route path="/kottabos" element={<KottabosPage />} />
         <Route path="/producto/:id" element={<ProductoPage />} />
