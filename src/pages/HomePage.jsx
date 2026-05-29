@@ -22,702 +22,557 @@ function FleurDeLis({ size = 24, color = COLORS.gold }) {
   )
 }
 
-/* ── Hero Section with Bottega Logo ─────────────────────── */
+/* ─── HERO ──────────────────────────────────────────────── */
 function Hero() {
   const navigate = useNavigate()
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
   return (
-    <section
-      style={{
-        position: 'relative',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        background: `linear-gradient(135deg, ${COLORS.black} 0%, #1A1A1A 100%)`,
-      }}
-    >
-      {/* Decorative light rays */}
+    <section ref={ref} style={{
+      position: 'relative', minHeight: '100svh', overflow: 'hidden',
+      background: COLORS.black,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      {/* Parallax background – Sicily/Taormina */}
+      <motion.div style={{ y: bgY, position: 'absolute', inset: '-20%', zIndex: 0 }}>
+        <img
+          src="https://images.unsplash.com/photo-1533769222343-6b23c83879e9?w=1920&q=85"
+          alt="Sicilia, Italia"
+          onError={(e) => {
+            e.target.src = 'https://wallpapercat.com/w/full/b/9/0/774515-1920x1200-desktop-hd-sicily-background-image.jpg'
+          }}
+          style={{ width: '100%', height: '140%', objectFit: 'cover',
+            filter: 'brightness(0.2) saturate(0.6) contrast(1.2)' }}
+        />
+      </motion.div>
+
+      {/* Layered gradients */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1,
+        background: `radial-gradient(ellipse at center, ${COLORS.black}80 0%, ${COLORS.black}D0 70%)` }} />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1,
+        background: `linear-gradient(to top, ${COLORS.black} 0%, transparent 60%)` }} />
+
+      {/* Animated vertical rays */}
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0.03, 0.08, 0.03] }}
-          transition={{
-            duration: 4,
-            delay: i * 0.3,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: `${15 + i * 14}%`,
-            width: '2px',
-            height: '100%',
-            background: `linear-gradient(180deg, transparent 0%, ${COLORS.gold} 50%, transparent 100%)`,
-          }}
+          animate={{ opacity: [0.02, 0.07, 0.02] }}
+          transition={{ duration: 4 + i * 0.5, delay: i * 0.4, repeat: Infinity }}
+          style={{ position: 'absolute', top: 0, left: `${10 + i * 16}%`,
+            width: '1px', height: '100%', zIndex: 1,
+            background: `linear-gradient(180deg, transparent 0%, ${COLORS.gold} 50%, transparent 100%)` }}
         />
       ))}
 
-      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 clamp(20px,6%,80px)' }}>
+      {/* Content */}
+      <motion.div
+        style={{ y: contentY, opacity, position: 'relative', zIndex: 2,
+          textAlign: 'center', padding: '0 clamp(24px,6%,100px)',
+          maxWidth: '1000px', width: '100%' }}
+      >
         {/* Fleur de Lis */}
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, type: 'spring' }}
+          initial={{ opacity: 0, scale: 0, rotate: -180 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 1, type: 'spring', stiffness: 100 }}
         >
-          <FleurDeLis size={40} />
+          <FleurDeLis size={44} />
         </motion.div>
 
-        {/* Bottega Logo */}
+        {/* Logo */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ marginTop: '32px', marginBottom: '32px' }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          style={{ margin: '36px auto' }}
         >
-          <img
+          <motion.img
             src="/images/bottega/logo.png"
             alt="Bottega Italiana"
-            style={{
-              height: '120px',
-              width: '120px',
-              borderRadius: '50%',
-              margin: '0 auto',
-              boxShadow: `0 8px 24px ${COLORS.gold}40`,
-            }}
+            animate={{ boxShadow: [
+              `0 0 0px ${COLORS.gold}00`,
+              `0 0 40px ${COLORS.gold}50`,
+              `0 0 0px ${COLORS.gold}00`,
+            ]}}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ height: 'clamp(110px, 14vw, 150px)',
+              width: 'clamp(110px, 14vw, 150px)',
+              borderRadius: '50%', margin: '0 auto',
+              border: `3px solid ${COLORS.gold}60`,
+              objectFit: 'cover' }}
           />
         </motion.div>
 
-        {/* Italian Flag Line */}
+        {/* Italian flag */}
         <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '8px',
-            marginBottom: '40px',
-          }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          style={{ display: 'flex', justifyContent: 'center',
+            gap: '8px', marginBottom: '36px', transformOrigin: 'center' }}
         >
-          {[COLORS.green, COLORS.snow, COLORS.inferno].map((color, i) => (
+          {[COLORS.green, COLORS.snow, COLORS.inferno].map((c, i) => (
             <motion.div
               key={i}
-              initial={{ height: 0 }}
-              animate={{ height: '4px' }}
-              transition={{ duration: 0.6, delay: 0.6 + i * 0.1 }}
-              style={{
-                width: '80px',
-                background: color,
-              }}
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 0.5, delay: 0.7 + i * 0.1 }}
+              style={{ width: 'clamp(60px,8vw,100px)', height: '4px', background: c }}
             />
           ))}
         </motion.div>
 
-        {/* Title */}
+        {/* Main title */}
         <motion.h1
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
-          style={{
-            fontSize: 'clamp(3rem,9vw,6rem)',
-            fontFamily: SERIF,
-            fontWeight: 300,
-            fontStyle: 'italic',
-            color: COLORS.gold,
-            letterSpacing: '4px',
-            marginBottom: '24px',
-            lineHeight: 1.1,
-          }}
+          style={{ fontFamily: SERIF, fontWeight: 300, fontStyle: 'italic',
+            fontSize: 'clamp(3rem,9vw,7rem)', color: COLORS.gold,
+            letterSpacing: '3px', marginBottom: '20px', lineHeight: 1 }}
         >
           Bottega Italiana
         </motion.h1>
 
         {/* Divider */}
         <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
+          initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          style={{
-            width: '140px',
-            height: '3px',
-            background: COLORS.gold,
-            margin: '0 auto 40px',
-          }}
+          style={{ width: 'clamp(80px,12vw,140px)', height: '2px',
+            background: COLORS.gold, margin: '0 auto 32px' }}
         />
 
-        {/* Subtitle */}
+        {/* Tagline */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          style={{
-            fontSize: 'clamp(1.1rem,2.5vw,1.5rem)',
-            color: COLORS.snow,
-            letterSpacing: '1px',
-            lineHeight: 1.8,
-            maxWidth: '800px',
-            margin: '0 auto 60px',
-            fontFamily: SANS,
-          }}
+          style={{ fontSize: 'clamp(1rem,2.2vw,1.4rem)', color: `${COLORS.snow}CC`,
+            letterSpacing: '1.5px', lineHeight: 1.8,
+            maxWidth: '680px', margin: '0 auto 56px', fontFamily: SANS }}
         >
-          Productos premium italianos desde Sicilia hasta Bolivia
+          Productos desde Italia a Bolivia
         </motion.p>
 
         {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.4 }}
-          style={{
-            display: 'flex',
-            gap: '24px',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}
+          style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}
         >
           <motion.button
             onClick={() => navigate('/catalogo')}
-            whileHover={{ scale: 1.08, boxShadow: `0 15px 40px ${COLORS.gold}60` }}
+            whileHover={{ scale: 1.06, boxShadow: `0 12px 40px ${COLORS.gold}50` }}
             whileTap={{ scale: 0.95 }}
-            style={{
-              background: COLORS.gold,
-              border: `3px solid ${COLORS.gold}`,
-              color: COLORS.black,
-              padding: '18px 48px',
-              fontSize: '13px',
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
-              fontFamily: SANS,
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
+            style={{ background: COLORS.gold, border: 'none', color: COLORS.black,
+              padding: 'clamp(14px,2vw,18px) clamp(32px,5vw,52px)',
+              fontSize: 'clamp(10px,1.2vw,13px)', letterSpacing: '3px',
+              textTransform: 'uppercase', fontFamily: SANS,
+              fontWeight: 700, cursor: 'pointer', transition: 'all 0.3s ease' }}
           >
             Ver Catálogo
           </motion.button>
-
           <motion.button
             onClick={() => navigate('/historia')}
-            whileHover={{ scale: 1.08, boxShadow: `0 15px 40px ${COLORS.gold}40` }}
+            whileHover={{ scale: 1.06, borderColor: COLORS.gold,
+              boxShadow: `0 12px 40px ${COLORS.gold}30` }}
             whileTap={{ scale: 0.95 }}
-            style={{
-              background: 'transparent',
-              border: `3px solid ${COLORS.gold}`,
-              color: COLORS.gold,
-              padding: '18px 48px',
-              fontSize: '13px',
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
-              fontFamily: SANS,
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
+            style={{ background: 'transparent', border: `2px solid ${COLORS.snow}60`,
+              color: COLORS.snow, padding: 'clamp(14px,2vw,18px) clamp(32px,5vw,52px)',
+              fontSize: 'clamp(10px,1.2vw,13px)', letterSpacing: '3px',
+              textTransform: 'uppercase', fontFamily: SANS,
+              fontWeight: 500, cursor: 'pointer', transition: 'all 0.3s ease' }}
           >
             Nuestra Historia
           </motion.button>
         </motion.div>
-      </div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        style={{ position: 'absolute', bottom: '28px', left: '50%',
+          transform: 'translateX(-50%)', zIndex: 3,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}
+      >
+        <div style={{ fontSize: '8px', letterSpacing: '3px', color: `${COLORS.snow}60`, fontFamily: SANS }}>SCROLL</div>
+        <div style={{ width: '1px', height: '40px', background: `linear-gradient(${COLORS.gold}, transparent)` }} />
+      </motion.div>
     </section>
   )
 }
 
-/* ── Stats Section ──────────────────────────────────────── */
-function StatsSection() {
-  const stats = [
-    { number: '2', label: 'Marcas Premium' },
-    { number: '10', label: 'Productos Artesanales' },
-    { number: '100+', label: 'Años de Tradición' },
-  ]
-
+/* ─── STATS STRIP ───────────────────────────────────────── */
+function StatsStrip() {
   return (
-    <section style={{ padding: 'clamp(80px,12vw,120px) clamp(20px,6%,80px)', background: COLORS.snow }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
-            gap: '40px',
-          }}
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover={{ y: -8, scale: 1.03 }}
-              style={{
-                textAlign: 'center',
-                padding: '40px 20px',
-                background: '#fff',
-                border: `2px solid ${COLORS.gold}`,
-                transition: 'all 0.4s ease',
-                cursor: 'default',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 'clamp(2.5rem,6vw,4rem)',
-                  fontFamily: SERIF,
-                  fontWeight: 300,
-                  fontStyle: 'italic',
-                  color: COLORS.gold,
-                  marginBottom: '12px',
-                }}
-              >
-                {stat.number}
-              </div>
-              <div
-                style={{
-                  fontSize: '13px',
-                  letterSpacing: '2px',
-                  color: COLORS.black,
-                  textTransform: 'uppercase',
-                  fontFamily: SANS,
-                  fontWeight: 500,
-                }}
-              >
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <div style={{ background: COLORS.gold }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center',
+        maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px,4%,60px)' }}>
+        {[
+          ['2', 'Marcas Premium'],
+          ['10+', 'Productos'],
+          ['100+', 'Años de Tradición'],
+          ['Sicilia', 'Italia → Bolivia'],
+        ].map(([num, label], i, arr) => (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.08 }}
+            style={{ textAlign: 'center', flex: '1 1 auto', minWidth: '110px',
+              padding: 'clamp(14px,3vw,22px) clamp(16px,3vw,48px)',
+              borderRight: i < arr.length - 1 ? `1px solid ${COLORS.black}20` : 'none' }}
+          >
+            <div style={{ fontSize: 'clamp(1.4rem,4vw,2.2rem)', fontFamily: SERIF,
+              fontStyle: 'italic', fontWeight: 300, color: COLORS.black, lineHeight: 1 }}>
+              {num}
+            </div>
+            <div style={{ fontSize: '9px', letterSpacing: '2px', color: `${COLORS.black}BB`,
+              textTransform: 'uppercase', fontFamily: SANS, fontWeight: 600, marginTop: '4px' }}>
+              {label}
+            </div>
+          </motion.div>
+        ))}
       </div>
-    </section>
+    </div>
   )
 }
 
-/* ── Our Brands Section with BOTH logos ────────────────── */
-function OurBrandsSection() {
+/* ─── BRANDS — FULL VISUAL SPLIT ───────────────────────── */
+function BrandsSection() {
   const navigate = useNavigate()
 
-  const brands = [
-    {
-      name: 'Morettino',
-      logo: '/images/morettino/morettinologo.webp',
-      founded: 'Desde 1920',
-      origin: 'Palermo, Sicilia',
-      description: 'Café artesanal siciliano con más de 100 años de tradición y excelencia. Cuatro generaciones de maestros tostadores.',
-      color: COLORS.gold,
-      bg: COLORS.snow,
-      link: '/morettino',
-    },
-    {
-      name: 'Kottabos',
-      logo: '/images/kottabos/kottabos-logo.jpg',
-      founded: 'Artesanal',
-      origin: 'Sicilia, Italia',
-      description: 'Cervezas artesanales sicilianas elaboradas con ingredientes premium y recetas tradicionales mediterráneas.',
-      color: COLORS.gold,
-      bg: COLORS.black,
-      link: '/kottabos',
-    },
-  ]
-
   return (
-    <section style={{ padding: 'clamp(100px,14vw,140px) clamp(20px,6%,80px)', background: '#FAFAFA' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '80px' }}
-        >
-          <FleurDeLis size={32} />
-          <h2
-            style={{
-              fontSize: 'clamp(2.5rem,6vw,4rem)',
-              fontFamily: SERIF,
-              fontWeight: 300,
-              fontStyle: 'italic',
-              color: COLORS.black,
-              marginTop: '24px',
-              marginBottom: '24px',
-              letterSpacing: '2px',
-            }}
-          >
-            Nuestras Marcas
-          </h2>
-          <div
-            style={{
-              width: '100px',
-              height: '3px',
-              background: COLORS.gold,
-              margin: '0 auto 32px',
-            }}
-          />
-          <p
-            style={{
-              fontSize: '16px',
-              color: '#4A4A4A',
-              lineHeight: 1.9,
-              maxWidth: '700px',
-              margin: '0 auto',
-              fontFamily: SANS,
-              letterSpacing: '0.5px',
-            }}
-          >
-            Importamos y distribuimos productos premium de dos de las marcas más emblemáticas de Sicilia
-          </p>
-        </motion.div>
+    <section style={{ background: COLORS.black }}>
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        style={{ textAlign: 'center',
+          padding: 'clamp(80px,12vw,120px) clamp(20px,6%,80px) clamp(50px,8vw,70px)' }}
+      >
+        <FleurDeLis size={32} />
+        <h2 style={{ fontSize: 'clamp(2.2rem,6vw,4rem)', fontFamily: SERIF,
+          fontStyle: 'italic', fontWeight: 300, color: COLORS.snow,
+          marginTop: '24px', marginBottom: '20px', letterSpacing: '2px' }}>
+          Nuestras Marcas
+        </h2>
+        <div style={{ width: '80px', height: '2px', background: COLORS.gold, margin: '0 auto 24px' }} />
+        <p style={{ fontSize: 'clamp(14px,1.6vw,16px)', color: `${COLORS.snow}99`,
+          lineHeight: 1.9, maxWidth: '600px', margin: '0 auto',
+          fontFamily: SANS, letterSpacing: '0.5px' }}>
+          Importamos y distribuimos las marcas más emblemáticas de la artesanía siciliana
+        </p>
+      </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 450px), 1fr))',
-            gap: '40px',
-          }}
-        >
-          {brands.map((brand, i) => (
-            <motion.div
-              key={brand.name}
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.8, delay: i * 0.2 }}
-              whileHover={{ y: -12, scale: 1.02 }}
+      {/* Full-bleed brand cards */}
+      {[
+        {
+          name: 'Morettino',
+          link: '/morettino',
+          subtitle: 'Café Artesanal',
+          founded: 'Palermo, Sicilia · Desde 1920',
+          desc: 'Cuatro generaciones dedicadas al arte del café. Maestros tostadores sicilianos desde 1920.',
+          logo: '/images/morettino/morettinologo.webp',
+          bg: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1200&q=80',
+          accentLeft: true,
+        },
+        {
+          name: 'Kottabos',
+          link: '/kottabos',
+          subtitle: 'Cerveza Artesanal',
+          founded: 'Montes Nebrodi, Sicilia · 2015',
+          desc: 'Tres mujeres, una pasión. Cervezas artesanales no filtradas desde el corazón de Sicilia.',
+          logo: '/images/kottabos/kottabos-logo.jpg',
+          bg: 'https://images.unsplash.com/photo-1555658636-6e4a36218be7?w=1200&q=80',
+          accentLeft: false,
+        },
+      ].map((brand, i) => {
+        const ref = useRef(null)
+        const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center center'] })
+        const y = useTransform(scrollYProgress, [0, 1], [60, 0])
+        const opacity = useTransform(scrollYProgress, [0, 0.6], [0, 1])
+        const bgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1])
+
+        return (
+          <motion.div
+            key={brand.name}
+            ref={ref}
+            style={{ opacity, y }}
+          >
+            <div
               onClick={() => navigate(brand.link)}
-              style={{
-                background: brand.bg,
-                padding: '50px 40px',
-                cursor: 'pointer',
-                transition: 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
-                border: `3px solid ${brand.color}`,
-                position: 'relative',
-                overflow: 'hidden',
-              }}
+              style={{ position: 'relative', minHeight: 'clamp(450px, 65vh, 650px)',
+                display: 'flex', alignItems: 'flex-end',
+                overflow: 'hidden', cursor: 'pointer', borderTop: `1px solid ${COLORS.gold}20` }}
+              className="brand-row"
             >
-              {/* Background gradient */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: `radial-gradient(circle at top right, ${brand.color}15 0%, transparent 60%)`,
-                  pointerEvents: 'none',
-                }}
-              />
+              {/* Background */}
+              <motion.div style={{ scale: bgScale, position: 'absolute', inset: 0, zIndex: 0 }}>
+                <img src={brand.bg} alt={brand.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover',
+                    filter: 'brightness(0.2) saturate(0.5)' }} />
+              </motion.div>
 
-              <div style={{ position: 'relative', zIndex: 2 }}>
-                <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'center' }}>
-                  <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    style={{
-                      height: '100px',
-                      width: 'auto',
-                      maxWidth: '200px',
-                      objectFit: 'contain',
-                      filter: brand.bg === COLORS.black ? 'brightness(1.2)' : 'none',
-                    }}
-                  />
+              {/* Gradient */}
+              <div style={{ position: 'absolute', inset: 0, zIndex: 1,
+                background: brand.accentLeft
+                  ? `linear-gradient(to right, ${COLORS.black}F0 0%, ${COLORS.black}CC 50%, ${COLORS.black}80 100%)`
+                  : `linear-gradient(to left, ${COLORS.black}F0 0%, ${COLORS.black}CC 50%, ${COLORS.black}80 100%)` }} />
+              <div style={{ position: 'absolute', inset: 0, zIndex: 1,
+                background: `linear-gradient(to top, ${COLORS.black} 0%, transparent 50%)` }} />
+
+              {/* Content */}
+              <div style={{ position: 'relative', zIndex: 2,
+                padding: 'clamp(50px,8vw,80px) clamp(28px,7%,100px)',
+                display: 'flex', flexDirection: 'column',
+                alignItems: brand.accentLeft ? 'flex-start' : 'flex-end',
+                width: '100%' }}
+              >
+                <div style={{ maxWidth: 'min(560px, 90vw)',
+                  textAlign: brand.accentLeft ? 'left' : 'right',
+                  marginLeft: brand.accentLeft ? 0 : 'auto' }}
+                >
+                  <img src={brand.logo} alt={brand.name}
+                    style={{ height: 'clamp(60px,8vw,90px)', width: 'auto',
+                      objectFit: 'contain', marginBottom: '24px',
+                      filter: 'brightness(1.1)', display: 'block',
+                      marginLeft: brand.accentLeft ? 0 : 'auto' }} />
+
+                  <div style={{ fontSize: '10px', letterSpacing: '4px', color: COLORS.gold,
+                    fontFamily: SANS, fontWeight: 600, marginBottom: '12px' }}>
+                    {brand.founded}
+                  </div>
+
+                  <h3 style={{ fontSize: 'clamp(2.5rem,7vw,5.5rem)', fontFamily: SERIF,
+                    fontStyle: 'italic', fontWeight: 300, color: COLORS.snow,
+                    lineHeight: 0.95, marginBottom: '16px', letterSpacing: '1px' }}>
+                    {brand.name}
+                  </h3>
+
+                  <div style={{ width: '60px', height: '2px', background: COLORS.gold,
+                    marginBottom: '20px',
+                    marginLeft: brand.accentLeft ? 0 : 'auto' }} />
+
+                  <p style={{ fontSize: 'clamp(13px,1.5vw,15px)', color: `${COLORS.snow}AA`,
+                    lineHeight: 1.9, fontFamily: SANS, marginBottom: '28px' }}>
+                    {brand.desc}
+                  </p>
+
+                  <motion.div
+                    whileHover={{ x: brand.accentLeft ? 6 : -6 }}
+                    style={{ display: 'inline-flex', alignItems: 'center',
+                      gap: '10px', fontSize: '11px', letterSpacing: '2px',
+                      color: COLORS.gold, fontFamily: SANS, fontWeight: 600,
+                      textTransform: 'uppercase' }}
+                  >
+                    {!brand.accentLeft && (
+                      <motion.span animate={{ x: [0, -4, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+                        ←
+                      </motion.span>
+                    )}
+                    Conocer Más
+                    {brand.accentLeft && (
+                      <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+                        →
+                      </motion.span>
+                    )}
+                  </motion.div>
                 </div>
-
-                <div
-                  style={{
-                    fontSize: '12px',
-                    letterSpacing: '2px',
-                    color: brand.color,
-                    marginBottom: '16px',
-                    fontFamily: SANS,
-                    fontWeight: 600,
-                    textAlign: 'center',
-                  }}
-                >
-                  {brand.founded} · {brand.origin}
-                </div>
-
-                <p
-                  style={{
-                    fontSize: '15px',
-                    lineHeight: 2,
-                    color: brand.bg === COLORS.black ? `${COLORS.snow}DD` : '#4A4A4A',
-                    marginBottom: '32px',
-                    fontFamily: SANS,
-                    letterSpacing: '0.5px',
-                    textAlign: 'center',
-                  }}
-                >
-                  {brand.description}
-                </p>
-
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  style={{
-                    fontSize: '12px',
-                    letterSpacing: '2px',
-                    color: brand.color,
-                    textTransform: 'uppercase',
-                    fontFamily: SANS,
-                    fontWeight: 600,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  Conocer Más
-                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                    →
-                  </motion.span>
-                </motion.div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+            </div>
+          </motion.div>
+        )
+      })}
     </section>
   )
 }
 
-/* ── Brand Catalog Section ─────────────────────────────── */
-function BrandCatalogSection() {
+/* ─── SICILY INTERLUDE ──────────────────────────────────── */
+function SicilyInterlude() {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+
+  return (
+    <section ref={ref} style={{ position: 'relative',
+      minHeight: 'clamp(380px, 55vh, 580px)', overflow: 'hidden',
+      display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <motion.div style={{ y: bgY, position: 'absolute', inset: '-15%', zIndex: 0 }}>
+        <img
+          src="https://wallpapercat.com/w/full/b/9/0/774515-1920x1200-desktop-hd-sicily-background-image.jpg"
+          alt="Sicilia, Italia"
+          onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1534445867742-43195f401b6c?w=1920&q=80'
+          }}
+          style={{ width: '100%', height: '130%', objectFit: 'cover',
+            filter: 'brightness(0.25) saturate(0.7) contrast(1.1)' }}
+        />
+      </motion.div>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1,
+        background: `${COLORS.black}70` }} />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.9 }}
+        style={{ position: 'relative', zIndex: 2,
+          textAlign: 'center', padding: 'clamp(40px,8vw,80px) clamp(24px,8%,100px)',
+          maxWidth: '800px' }}
+      >
+        {/* Italian flag */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '32px' }}>
+          {[COLORS.green, COLORS.snow, COLORS.inferno].map((c, i) => (
+            <div key={i} style={{ width: '50px', height: '3px', background: c }} />
+          ))}
+        </div>
+
+        <h2 style={{ fontSize: 'clamp(2.2rem,6vw,4.5rem)', fontFamily: SERIF,
+          fontStyle: 'italic', fontWeight: 300, color: COLORS.snow,
+          lineHeight: 1.05, marginBottom: '24px' }}>
+          Lo mejor de Sicilia,<br />
+          <span style={{ color: COLORS.gold }}>en Bolivia</span>
+        </h2>
+
+        <div style={{ width: '60px', height: '2px', background: COLORS.gold, margin: '0 auto 24px' }} />
+
+        <p style={{ fontSize: 'clamp(14px,1.6vw,17px)', color: `${COLORS.snow}CC`,
+          lineHeight: 1.9, fontFamily: SANS }}>
+          Siglos de tradición artesanal siciliana, seleccionados con rigor y traídos directamente a Bolivia por Bottega Italiana.
+        </p>
+      </motion.div>
+    </section>
+  )
+}
+
+/* ─── QUICK CATALOG ─────────────────────────────────────── */
+function QuickCatalog() {
   const navigate = useNavigate()
 
   return (
-    <section style={{ padding: 'clamp(100px,14vw,140px) clamp(20px,6%,80px)', background: COLORS.snow }}>
+    <section style={{ background: '#F5F0E8',
+      padding: 'clamp(80px,12vw,120px) clamp(20px,6%,80px)' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '60px' }}
+          style={{ textAlign: 'center', marginBottom: 'clamp(40px,8vw,60px)' }}
         >
-          <FleurDeLis size={32} />
-          <h2
-            style={{
-              fontSize: 'clamp(2.5rem,6vw,4rem)',
-              fontFamily: SERIF,
-              fontWeight: 300,
-              fontStyle: 'italic',
-              color: COLORS.black,
-              marginTop: '24px',
-              letterSpacing: '2px',
-            }}
-          >
+          <FleurDeLis size={28} />
+          <h2 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', fontFamily: SERIF,
+            fontStyle: 'italic', fontWeight: 300, color: COLORS.black,
+            marginTop: '20px', marginBottom: '16px', letterSpacing: '1px' }}>
             Explora Nuestro Catálogo
           </h2>
+          <div style={{ width: '60px', height: '2px', background: COLORS.gold, margin: '0 auto' }} />
         </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '32px',
-          }}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(16px,3vw,28px)' }}
           className="catalog-grid"
         >
-          {/* Morettino */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -8 }}
-            onClick={() => navigate('/catalogo?cat=cafe')}
-            style={{
-              background: '#fff',
-              padding: '60px 40px',
-              cursor: 'pointer',
-              transition: 'all 0.4s ease',
-              border: `3px solid ${COLORS.gold}`,
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: `radial-gradient(circle at center, ${COLORS.gold}15 0%, transparent 70%)`,
-              }}
-            />
-            <div style={{ position: 'relative', zIndex: 2 }}>
-              <div
-                style={{
-                  fontSize: 'clamp(2rem,4vw,3rem)',
-                  fontFamily: SERIF,
-                  fontStyle: 'italic',
-                  color: COLORS.gold,
-                  marginBottom: '20px',
-                }}
-              >
-                Morettino
+          {[
+            { title: 'Morettino', sub: 'Café Artesanal', bg: '#ffffff', color: COLORS.black,
+              path: '/catalogo?cat=cafe', logo: '/images/morettino/morettinologo.webp' },
+            { title: 'Kottabos', sub: 'Cerveza Artesanal', bg: COLORS.black, color: COLORS.snow,
+              path: '/catalogo?cat=cerveza', logo: '/images/kottabos/kottabos-logo.jpg' },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -8 }}
+              onClick={() => navigate(item.path)}
+              style={{ background: item.bg, border: `2px solid ${COLORS.gold}`,
+                padding: 'clamp(40px,6vw,70px) clamp(24px,4vw,50px)',
+                cursor: 'pointer', transition: 'all 0.4s ease',
+                textAlign: 'center', position: 'relative', overflow: 'hidden' }}
+            >
+              <div style={{ position: 'absolute', inset: 0,
+                background: `radial-gradient(circle at center, ${COLORS.gold}12 0%, transparent 70%)` }} />
+              <div style={{ position: 'relative', zIndex: 2 }}>
+                <img src={item.logo} alt={item.title}
+                  style={{ height: 'clamp(50px,7vw,80px)', width: 'auto',
+                    objectFit: 'contain', margin: '0 auto 24px', display: 'block',
+                    filter: item.bg === COLORS.black ? 'brightness(1.2)' : 'none' }} />
+                <div style={{ fontSize: 'clamp(1.6rem,3.5vw,2.5rem)', fontFamily: SERIF,
+                  fontStyle: 'italic', color: COLORS.gold, marginBottom: '10px' }}>
+                  {item.title}
+                </div>
+                <div style={{ fontSize: '11px', letterSpacing: '2px',
+                  color: item.color === COLORS.snow ? `${COLORS.snow}AA` : '#666',
+                  fontFamily: SANS, fontWeight: 500 }}>
+                  {item.sub}
+                </div>
               </div>
-              <div
-                style={{
-                  fontSize: '13px',
-                  letterSpacing: '2px',
-                  color: '#4A4A4A',
-                  fontFamily: SANS,
-                  fontWeight: 500,
-                }}
-              >
-                CAFÉ ARTESANAL
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Kottabos */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -8 }}
-            onClick={() => navigate('/catalogo?cat=cerveza')}
-            style={{
-              background: COLORS.black,
-              padding: '60px 40px',
-              cursor: 'pointer',
-              transition: 'all 0.4s ease',
-              border: `3px solid ${COLORS.gold}`,
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: `radial-gradient(circle at center, ${COLORS.gold}15 0%, transparent 70%)`,
-              }}
-            />
-            <div style={{ position: 'relative', zIndex: 2 }}>
-              <div
-                style={{
-                  fontSize: 'clamp(2rem,4vw,3rem)',
-                  fontFamily: SERIF,
-                  fontStyle: 'italic',
-                  color: COLORS.gold,
-                  marginBottom: '20px',
-                }}
-              >
-                Kottabos
-              </div>
-              <div
-                style={{
-                  fontSize: '13px',
-                  letterSpacing: '2px',
-                  color: COLORS.snow,
-                  fontFamily: SANS,
-                  fontWeight: 500,
-                }}
-              >
-                CERVEZA ARTESANAL
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
   )
 }
 
-/* ── Contact CTA ────────────────────────────────────────── */
+/* ─── CONTACT CTA ───────────────────────────────────────── */
 function ContactCTA() {
   return (
-    <section
-      style={{
-        padding: 'clamp(100px,14vw,140px) clamp(20px,6%,80px)',
-        background: `linear-gradient(135deg, ${COLORS.black} 0%, #1A1A1A 100%)`,
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Animated lines */}
+    <section style={{ padding: 'clamp(90px,12vw,130px) clamp(20px,6%,80px)',
+      background: `linear-gradient(135deg, ${COLORS.black} 0%, #1A1A1A 100%)`,
+      textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+
+      {/* Animated scan lines */}
       {[...Array(3)].map((_, i) => (
         <motion.div
           key={i}
           animate={{ x: ['-100%', '100%'] }}
-          transition={{
-            duration: 15 + i * 5,
-            repeat: Infinity,
-            ease: 'linear',
-            delay: i * 2,
-          }}
-          style={{
-            position: 'absolute',
-            top: `${30 + i * 25}%`,
-            width: '50%',
-            height: '1px',
-            background: `linear-gradient(90deg, transparent 0%, ${COLORS.gold} 50%, transparent 100%)`,
-            opacity: 0.2,
-          }}
+          transition={{ duration: 14 + i * 4, repeat: Infinity, ease: 'linear', delay: i * 2 }}
+          style={{ position: 'absolute', top: `${28 + i * 25}%`,
+            width: '50%', height: '1px',
+            background: `linear-gradient(90deg, transparent, ${COLORS.gold}50, transparent)`,
+            opacity: 0.3 }}
         />
       ))}
 
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '720px', margin: '0 auto' }}>
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 5, -5, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
+          animate={{ scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         >
           <FleurDeLis size={40} />
         </motion.div>
 
-        <h2
-          style={{
-            fontSize: 'clamp(2.5rem,6vw,4rem)',
-            fontFamily: SERIF,
-            fontWeight: 300,
-            fontStyle: 'italic',
-            color: COLORS.gold,
-            marginTop: '32px',
-            marginBottom: '32px',
-            letterSpacing: '2px',
-          }}
-        >
+        <h2 style={{ fontSize: 'clamp(2.2rem,5.5vw,3.8rem)', fontFamily: SERIF,
+          fontStyle: 'italic', fontWeight: 300, color: COLORS.gold,
+          marginTop: '28px', marginBottom: '20px', letterSpacing: '2px' }}>
           ¿Listo para Degustar?
         </h2>
 
-        <p
-          style={{
-            fontSize: '16px',
-            color: COLORS.snow,
-            lineHeight: 2,
-            marginBottom: '48px',
-            fontFamily: SANS,
-            letterSpacing: '0.5px',
-          }}
-        >
-          Contáctanos para conocer más sobre nuestros productos premium
+        <div style={{ width: '60px', height: '2px', background: COLORS.gold, margin: '0 auto 24px' }} />
+
+        <p style={{ fontSize: 'clamp(14px,1.6vw,16px)', color: `${COLORS.snow}BB`,
+          lineHeight: 1.9, marginBottom: '44px', fontFamily: SANS }}>
+          Contáctanos para conocer más sobre nuestros productos premium italianos
         </p>
 
         <motion.a
-          href="https://wa.me/59178594506"
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ scale: 1.08, boxShadow: `0 15px 40px ${COLORS.green}66` }}
+          href="https://wa.me/59178594506" target="_blank" rel="noopener noreferrer"
+          whileHover={{ scale: 1.06, boxShadow: `0 14px 40px #0C7A2A66` }}
           whileTap={{ scale: 0.95 }}
-          style={{
-            display: 'inline-block',
-            background: COLORS.green,
-            color: COLORS.snow,
-            padding: '20px 50px',
-            fontSize: '13px',
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            fontFamily: SANS,
-            fontWeight: 600,
-            textDecoration: 'none',
-            transition: 'all 0.3s ease',
-          }}
+          style={{ display: 'inline-block', background: '#0C7A2A',
+            color: COLORS.snow, padding: 'clamp(15px,2vw,20px) clamp(36px,6vw,56px)',
+            fontSize: 'clamp(10px,1.2vw,13px)', letterSpacing: '3px',
+            textTransform: 'uppercase', fontFamily: SANS, fontWeight: 700,
+            textDecoration: 'none', transition: 'all 0.3s ease' }}
         >
           📱 Contactar por WhatsApp
         </motion.a>
@@ -731,15 +586,15 @@ export default function HomePage() {
     <>
       <style>{`
         @media (max-width: 768px) {
-          .catalog-grid {
-            grid-template-columns: 1fr !important;
-          }
+          .catalog-grid { grid-template-columns: 1fr !important; }
+          .brand-row { min-height: 420px !important; }
         }
       `}</style>
       <Hero />
-      <StatsSection />
-      <OurBrandsSection />
-      <BrandCatalogSection />
+      <StatsStrip />
+      <BrandsSection />
+      <SicilyInterlude />
+      <QuickCatalog />
       <ContactCTA />
       <Footer />
     </>

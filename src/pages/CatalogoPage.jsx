@@ -200,7 +200,7 @@ export default function CatalogPage() {
               className={`filter-btn ${activeFilter === filter.id ? 'active' : ''}`}
             >
               <span>{filter.label}</span>
-              <span className="filter-badge">{filter.count}</span>
+              {/* <span className="filter-badge">{filter.count}</span> */}
             </button>
           ))}
         </div>

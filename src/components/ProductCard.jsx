@@ -22,13 +22,14 @@ export default function ProductCard({ product, index = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -6 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
+      whileHover={{ y: -8 }}
       onClick={() => navigate(`/producto/${product.id}`)}
       style={{
-        background: isKottabos ? COLORS.black : COLORS.snow,
-        padding: 'clamp(24px,4vw,32px)',
+        background: isKottabos ? COLORS.black : '#ffffff',
+        padding: 'clamp(20px,3vw,28px)',
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
@@ -36,7 +37,7 @@ export default function ProductCard({ product, index = 0 }) {
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '580px',
+        minHeight: '620px',
         border: `2px solid ${COLORS.gold}`,
       }}
     >
@@ -44,30 +45,29 @@ export default function ProductCard({ product, index = 0 }) {
       <div
         style={{
           position: 'absolute',
-          top: '16px',
-          left: '16px',
+          top: '12px',
+          left: '12px',
           background: COLORS.gold,
           color: COLORS.black,
-          padding: '6px 12px',
-          fontSize: '10px',
+          padding: '5px 10px',
+          fontSize: '9px',
           letterSpacing: '2px',
           textTransform: 'uppercase',
           fontFamily: SANS,
           fontWeight: 600,
-          zIndex: 2,
+          zIndex: 3,
         }}
       >
         {isKottabos ? 'CERVEZA' : 'CAFÉ'}
       </div>
 
-      {/* Radial glow effect */}
+      {/* Subtle background glow */}
       <motion.div
         animate={{
-          opacity: [0.1, 0.2, 0.1],
-          scale: [0.8, 1, 0.8],
+          opacity: [0.05, 0.15, 0.05],
         }}
         transition={{
-          duration: 4,
+          duration: 6,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
@@ -76,56 +76,58 @@ export default function ProductCard({ product, index = 0 }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '240px',
-          height: '240px',
-          background: `radial-gradient(circle, ${COLORS.gold}40 0%, transparent 70%)`,
+          width: '280px',
+          height: '280px',
+          background: `radial-gradient(circle, ${COLORS.gold} 0%, transparent 70%)`,
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
-      {/* Image Container */}
+      {/* Image Container - NORMALIZED SIZE */}
       <motion.div
-        animate={{
-          y: [0, -12, 0],
-          ...(isKottabos && { rotateY: [0, 8, 0, -8, 0] }),
-        }}
-        transition={{
-          duration: isKottabos ? 6 : 5,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: index * 0.2,
-        }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: index * 0.05 + 0.2 }}
         style={{
           position: 'relative',
-          height: '320px',
+          height: '380px',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: '24px',
-          zIndex: 1,
+          zIndex: 2,
+          background: isKottabos ? `${COLORS.gold}05` : '#f8f8f8',
+          borderBottom: `1px solid ${COLORS.gold}33`,
+          padding: '20px',
+          boxSizing: 'border-box',
         }}
       >
         <img
           src={product.image}
           alt={product.name}
           style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
+            width: '100%',
+            height: '100%',
             objectFit: 'contain',
-            filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.2))',
+            objectPosition: 'center',
+            maxWidth: '280px',
+            maxHeight: '340px',
+            filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.12))',
           }}
         />
       </motion.div>
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {/* Code/Style */}
         {(product.code || product.style) && (
           <div
             style={{
-              fontSize: '11px',
-              letterSpacing: '2px',
+              fontSize: '10px',
+              letterSpacing: '1.5px',
               color: COLORS.gold,
               textTransform: 'uppercase',
               fontFamily: SANS,
@@ -141,13 +143,14 @@ export default function ProductCard({ product, index = 0 }) {
         {/* Name */}
         <h3
           style={{
-            fontSize: 'clamp(1.3rem,2.8vw,1.6rem)',
+            fontSize: 'clamp(1.15rem,2.5vw,1.45rem)',
             fontFamily: SERIF,
             fontWeight: 300,
             fontStyle: 'italic',
             color: isKottabos ? COLORS.snow : COLORS.black,
-            letterSpacing: '0.5px',
+            letterSpacing: '0.3px',
             lineHeight: 1.2,
+            margin: '4px 0 0 0',
           }}
         >
           {product.name}
@@ -155,14 +158,14 @@ export default function ProductCard({ product, index = 0 }) {
 
         {/* Beer specs */}
         {isKottabos && (product.abv || product.ibu) && (
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
             {product.abv && (
               <div
                 style={{
-                  padding: '4px 10px',
+                  padding: '3px 8px',
                   border: `1px solid ${COLORS.gold}50`,
-                  fontSize: '11px',
-                  letterSpacing: '1px',
+                  fontSize: '9px',
+                  letterSpacing: '0.5px',
                   color: COLORS.gold,
                   fontFamily: SANS,
                   fontWeight: 500,
@@ -174,10 +177,10 @@ export default function ProductCard({ product, index = 0 }) {
             {product.ibu && (
               <div
                 style={{
-                  padding: '4px 10px',
+                  padding: '3px 8px',
                   border: `1px solid ${COLORS.gold}50`,
-                  fontSize: '11px',
-                  letterSpacing: '1px',
+                  fontSize: '9px',
+                  letterSpacing: '0.5px',
                   color: COLORS.gold,
                   fontFamily: SANS,
                   fontWeight: 500,
@@ -193,16 +196,17 @@ export default function ProductCard({ product, index = 0 }) {
         {product.description && (
           <p
             style={{
-              fontSize: '14px',
-              lineHeight: 1.8,
-              color: isKottabos ? `${COLORS.snow}B3` : '#4A4A4A',
+              fontSize: '13px',
+              lineHeight: 1.6,
+              color: isKottabos ? `${COLORS.snow}99` : '#666',
               fontFamily: SANS,
-              letterSpacing: '0.3px',
-              minHeight: '50px',
+              letterSpacing: '0.2px',
+              minHeight: '40px',
               display: '-webkit-box',
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
+              marginTop: '8px',
             }}
           >
             {product.description}
@@ -211,27 +215,24 @@ export default function ProductCard({ product, index = 0 }) {
 
         {/* CTA Button */}
         <motion.div
-          whileHover={{ x: 5 }}
+          whileHover={{ x: 3 }}
           style={{
-            fontSize: '12px',
-            letterSpacing: '2px',
+            fontSize: '11px',
+            letterSpacing: '1.5px',
             color: COLORS.gold,
             textTransform: 'uppercase',
             fontFamily: SANS,
             fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            marginTop: '8px',
+            gap: '6px',
+            marginTop: '12px',
+            paddingTop: '12px',
+            borderTop: `1px solid ${COLORS.gold}33`,
           }}
         >
-          Ver Detalles
-          <motion.span
-            animate={{ x: [0, 4, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            →
-          </motion.span>
+          Detalles
+          <span>→</span>
         </motion.div>
       </div>
     </motion.div>
