@@ -5,7 +5,7 @@ const SANS = '"Jost", sans-serif'
 const SERIF = '"Cormorant Garamond", serif'
 
 const COLORS = {
-  gold: '#E2BB00',
+  gold: '#c86915',
   black: '#010001',
   snow: '#FFFCFE',
   green: '#0C7A2A',

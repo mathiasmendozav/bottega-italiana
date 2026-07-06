@@ -10,7 +10,7 @@ const SERIF = '"Cormorant Garamond", serif'
 
 const COLORS = {
   snow: '#FFFCFE',
-  gold: '#E2BB00',
+  gold: '#c86915',
   black: '#010001',
 }
 

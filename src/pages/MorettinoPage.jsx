@@ -12,7 +12,7 @@ const COLORS = {
   inferno: '#AB0502',
   green: '#0C7A2A',
   black: '#010001',
-  gold: '#E2BB00',
+  gold: '#c86915',
   beige: '#F5F0E8',
 }
 

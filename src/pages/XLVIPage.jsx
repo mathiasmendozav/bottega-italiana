@@ -10,7 +10,7 @@ const MONO = '"Courier New", monospace'
 const COLORS = {
   snow: '#FFFCFE',
   black: '#010001',
-  gold: '#E2BB00',
+  gold: '#c86915',
   green: '#0C7A2A',
   steel: '#8A9BA8',
   dark: '#080808',
