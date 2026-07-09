@@ -109,7 +109,7 @@ export default function Footer() {
                 letterSpacing: '0.5px',
               }}
             >
-              Productos italianos premium importados desde Sicilia
+              Productos italianos premium importados desde Italia
             </p>
           </motion.div>
 

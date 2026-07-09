@@ -216,7 +216,7 @@ function StatsStrip() {
           ['2', 'Marcas Premium'],
           ['10+', 'Productos'],
           ['100+', 'Años de Tradición'],
-          ['Sicilia', 'Italia → Bolivia'],
+          ['❤️', 'Italia → Bolivia'],
         ].map(([num, label], i, arr) => (
           <motion.div
             key={label}
@@ -267,7 +267,7 @@ function BrandsSection() {
         <p style={{ fontSize: 'clamp(14px,1.6vw,16px)', color: `${COLORS.snow}99`,
           lineHeight: 1.9, maxWidth: '600px', margin: '0 auto',
           fontFamily: SANS, letterSpacing: '0.5px' }}>
-          Importamos y distribuimos las marcas más emblemáticas de la artesanía siciliana
+          Importamos y distribuimos las marcas más emblemáticas de la artesanía italiana
         </p>
       </motion.div>
 
@@ -437,7 +437,7 @@ function SicilyInterlude() {
         <h2 style={{ fontSize: 'clamp(2.2rem,6vw,4.5rem)', fontFamily: SERIF,
           fontStyle: 'italic', fontWeight: 300, color: COLORS.snow,
           lineHeight: 1.05, marginBottom: '24px' }}>
-          Lo mejor de Sicilia,<br />
+          Lo mejor de Italia,<br />
           <span style={{ color: COLORS.gold }}>en Bolivia</span>
         </h2>
 
@@ -445,7 +445,7 @@ function SicilyInterlude() {
 
         <p style={{ fontSize: 'clamp(14px,1.6vw,17px)', color: `${COLORS.snow}CC`,
           lineHeight: 1.9, fontFamily: SANS }}>
-          Siglos de tradición artesanal siciliana, seleccionados con rigor y traídos directamente a Bolivia por Bottega Italiana.
+          Siglos de tradición artesanal italiana, seleccionados con rigor y traídos directamente a Bolivia por Bottega Italiana.
         </p>
       </motion.div>
     </section>

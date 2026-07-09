@@ -6,7 +6,7 @@ const SERIF = '"Cormorant Garamond", serif'
 
 const COLORS = {
   snow: '#FFFCFE',
-  gold: '#c86915',
+  gold: '#C86915',
   black: '#010001',
 }
 
@@ -17,7 +17,7 @@ export default function ProductCard({ product, index = 0 }) {
   const isKottabos = product.brand === 'kottabos'
   const isXLVI = product.brand === 'xlvi'
 
-  // XLVI machine gets a different card style
+  // ── XLVI machine card ──────────────────────────────────
   if (isXLVI) {
     return (
       <motion.div
@@ -28,20 +28,14 @@ export default function ProductCard({ product, index = 0 }) {
         whileHover={{ y: -8 }}
         onClick={() => navigate(`/producto/${product.id}`)}
         style={{
-          background: '#0A0A0A',
-          padding: 'clamp(20px,3vw,28px)',
-          cursor: 'pointer',
-          position: 'relative',
-          overflow: 'hidden',
+          background: '#0A0A0A', padding: 'clamp(20px,3vw,28px)',
+          cursor: 'pointer', position: 'relative', overflow: 'hidden',
           transition: 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
           boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '620px',
-          border: `2px solid ${COLORS.gold}`,
+          display: 'flex', flexDirection: 'column',
+          minHeight: '620px', border: `2px solid ${COLORS.gold}`,
         }}
       >
-        {/* XLVI Badge */}
         <div style={{
           position: 'absolute', top: '12px', left: '12px',
           background: COLORS.gold, color: COLORS.black,
@@ -52,7 +46,6 @@ export default function ProductCard({ product, index = 0 }) {
           MÁQUINA
         </div>
 
-        {/* Ambient glow */}
         <motion.div
           animate={{ opacity: [0.05, 0.15, 0.05] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -65,10 +58,9 @@ export default function ProductCard({ product, index = 0 }) {
           }}
         />
 
-        {/* Machine image — scaled up to fill the card */}
+        {/* Machine image */}
         <div style={{
-          position: 'relative', width: '100%',
-          height: '340px',
+          position: 'relative', width: '100%', height: '340px',
           marginBottom: '24px', zIndex: 2,
           background: '#f2f2f0',
           borderBottom: `1px solid ${COLORS.gold}33`,
@@ -79,8 +71,7 @@ export default function ProductCard({ product, index = 0 }) {
             src={product.image}
             alt={product.name}
             style={{
-              width: '100%',
-              height: '100%',
+              width: '100%', height: '100%',
               objectFit: 'contain',
               transform: 'scale(1.35)',
               transformOrigin: 'center center',
@@ -88,36 +79,28 @@ export default function ProductCard({ product, index = 0 }) {
           />
         </div>
 
-        {/* Content */}
         <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto',
           display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ fontSize: '10px', letterSpacing: '2px', color: COLORS.gold,
             textTransform: 'uppercase', fontFamily: SANS, fontWeight: 600 }}>
             {product.origin || 'Monte Cerignone, Italia'}
           </div>
-
           <h3 style={{ fontSize: 'clamp(1.3rem,2.5vw,1.6rem)', fontFamily: SERIF,
             fontWeight: 300, fontStyle: 'italic', color: COLORS.snow,
             letterSpacing: '0.5px', lineHeight: 1.2, margin: 0 }}>
             {product.name}
           </h3>
-
           {product.description && (
-            <p style={{
-              fontSize: '13px', lineHeight: 1.6,
+            <p style={{ fontSize: '13px', lineHeight: 1.6,
               color: `${COLORS.snow}99`, fontFamily: SANS,
-              letterSpacing: '0.2px',
               display: '-webkit-box', WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical', overflow: 'hidden',
-              minHeight: '40px',
-            }}>
+              WebkitBoxOrient: 'vertical', overflow: 'hidden', minHeight: '40px' }}>
               {product.description}
             </p>
           )}
-
           {/* Price */}
           <div style={{ paddingTop: '8px', borderTop: `1px solid ${COLORS.gold}25` }}>
-            <div style={{ fontSize: '10px', letterSpacing: '2px',
+            <div style={{ fontSize: '9px', letterSpacing: '2px',
               color: `${COLORS.snow}60`, fontFamily: SANS, marginBottom: '3px' }}>
               PRECIO DE REFERENCIA
             </div>
@@ -145,7 +128,7 @@ export default function ProductCard({ product, index = 0 }) {
     )
   }
 
-  // Standard card for café and cerveza
+  // ── Standard card (café + cerveza) ────────────────────
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -156,19 +139,15 @@ export default function ProductCard({ product, index = 0 }) {
       onClick={() => navigate(`/producto/${product.id}`)}
       style={{
         background: isKottabos ? COLORS.black : '#ffffff',
-        padding: 'clamp(20px,3vw,28px)',
-        cursor: 'pointer',
-        position: 'relative',
-        overflow: 'hidden',
+        padding: 'clamp(20px,3vw,28px)', cursor: 'pointer',
+        position: 'relative', overflow: 'hidden',
         transition: 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '620px',
-        border: `2px solid ${COLORS.gold}`,
+        display: 'flex', flexDirection: 'column',
+        minHeight: '620px', border: `2px solid ${COLORS.gold}`,
       }}
     >
-      {/* Brand Badge */}
+      {/* Badge */}
       <div style={{
         position: 'absolute', top: '12px', left: '12px',
         background: COLORS.gold, color: COLORS.black,
@@ -179,7 +158,22 @@ export default function ProductCard({ product, index = 0 }) {
         {isKottabos ? 'CERVEZA' : 'CAFÉ'}
       </div>
 
-      {/* Subtle glow */}
+      {/* Volume badge (top right for beers) */}
+      {isKottabos && product.volume && (
+        <div style={{
+          position: 'absolute', top: '12px', right: '12px',
+          background: 'transparent',
+          border: `1px solid ${COLORS.gold}`,
+          color: COLORS.gold,
+          padding: '5px 10px', fontSize: '9px',
+          letterSpacing: '2px', textTransform: 'uppercase',
+          fontFamily: SANS, fontWeight: 600, zIndex: 3,
+        }}>
+          {product.volume}
+        </div>
+      )}
+
+      {/* Glow */}
       <motion.div
         animate={{ opacity: [0.05, 0.15, 0.05] }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -217,13 +211,12 @@ export default function ProductCard({ product, index = 0 }) {
       <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto',
         display: 'flex', flexDirection: 'column', gap: '10px' }}>
 
-        {/* Code/Style */}
+        {/* Code / Style */}
         {(product.code || product.style) && (
           <div style={{ fontSize: '10px', letterSpacing: '1.5px', color: COLORS.gold,
             textTransform: 'uppercase', fontFamily: SANS, fontWeight: 500 }}>
             {product.code ? `Cód. ${product.code}` : product.style}
             {product.weight && ` · ${product.weight}`}
-            {product.volume && ` · ${product.volume}`}
           </div>
         )}
 
@@ -240,15 +233,13 @@ export default function ProductCard({ product, index = 0 }) {
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '4px' }}>
             {product.abv && (
               <div style={{ padding: '3px 8px', border: `1px solid ${COLORS.gold}50`,
-                fontSize: '9px', letterSpacing: '0.5px', color: COLORS.gold,
-                fontFamily: SANS, fontWeight: 500 }}>
+                fontSize: '9px', color: COLORS.gold, fontFamily: SANS, fontWeight: 500 }}>
                 ABV {product.abv}
               </div>
             )}
             {product.ibu && (
               <div style={{ padding: '3px 8px', border: `1px solid ${COLORS.gold}50`,
-                fontSize: '9px', letterSpacing: '0.5px', color: COLORS.gold,
-                fontFamily: SANS, fontWeight: 500 }}>
+                fontSize: '9px', color: COLORS.gold, fontFamily: SANS, fontWeight: 500 }}>
                 IBU {product.ibu}
               </div>
             )}
@@ -268,8 +259,8 @@ export default function ProductCard({ product, index = 0 }) {
         )}
 
         {/* Price */}
-        {product.price && (
-          <div style={{ paddingTop: '8px', borderTop: `1px solid ${COLORS.gold}25` }}>
+        <div style={{ paddingTop: '8px', borderTop: `1px solid ${COLORS.gold}25` }}>
+          {product.price > 0 ? (
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
               <span style={{ fontFamily: SERIF, fontStyle: 'italic',
                 fontSize: 'clamp(1.4rem,3vw,1.7rem)',
@@ -282,16 +273,21 @@ export default function ProductCard({ product, index = 0 }) {
                 Bs.
               </span>
             </div>
-          </div>
-        )}
+          ) : (
+            <div style={{ fontSize: '11px', letterSpacing: '2px',
+              color: COLORS.gold, fontFamily: SANS, fontWeight: 600,
+              textTransform: 'uppercase' }}>
+              Definiendo precio
+            </div>
+          )}
+        </div>
 
         {/* CTA */}
         <motion.div whileHover={{ x: 3 }}
           style={{ fontSize: '11px', letterSpacing: '1.5px', color: COLORS.gold,
             textTransform: 'uppercase', fontFamily: SANS, fontWeight: 600,
             display: 'flex', alignItems: 'center', gap: '6px',
-            marginTop: '4px', paddingTop: '10px',
-            borderTop: `1px solid ${COLORS.gold}25` }}>
+            paddingTop: '8px', borderTop: `1px solid ${COLORS.gold}25` }}>
           Detalles <span>→</span>
         </motion.div>
       </div>

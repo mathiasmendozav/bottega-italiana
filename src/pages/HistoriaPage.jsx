@@ -112,7 +112,7 @@ function Hero() {
           style={{ fontSize: 'clamp(0.9rem,1.6vw,1.05rem)', color: `${COLORS.snow}B0`,
             lineHeight: 1.9, fontFamily: SANS, maxWidth: '480px' }}
         >
-          Una historia de pasión, tradición y excelencia italiana. El puente entre Sicilia y Bolivia.
+          Una historia de pasión, tradición y excelencia italiana. El puente entre Italia y Bolivia.
         </motion.p>
       </motion.div>
 
@@ -141,7 +141,7 @@ function StatsStrip() {
           ['2', 'Marcas Premium'],
           ['10+', 'Productos'],
           ['100%', 'Artesanal'],
-          ['Sicilia', 'Italia → Bolivia'],
+          ['❤️', 'Italia → Bolivia'],
         ].map(([num, label], i, arr) => (
           <motion.div
             key={label}
@@ -251,7 +251,7 @@ function BottegaStory() {
           <div style={{ width: '80px', height: '3px', background: COLORS.gold, marginBottom: '28px' }} />
 
           {[
-            'Bottega Italiana nace con la misión de acercar lo mejor de la tradición italiana a Bolivia. Importamos productos artesanales premium que representan siglos de maestría siciliana.',
+            'Bottega Italiana nace con la misión de acercar lo mejor de la tradición italiana a Bolivia. Importamos productos artesanales premium que representan siglos de maestría italiana.',
             'Cada producto que ofrecemos ha sido cuidadosamente seleccionado por su calidad excepcional, autenticidad y el legado de tradición que representa.',
           ].map((text, i) => (
             <motion.p
