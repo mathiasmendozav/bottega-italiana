@@ -579,7 +579,7 @@ function CTA() {
               fontFamily: SANS, fontWeight: 700, cursor: 'pointer', transition: 'all 0.3s ease' }}>
             Ver Catálogo
           </motion.button>
-          <motion.a href="https://wa.me/59178594506" target="_blank" rel="noopener noreferrer"
+          <motion.a href="https://wa.me/59178006639" target="_blank" rel="noopener noreferrer"
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
             style={{ background: '#25D366', border: 'none', color: COLORS.snow,
               padding: 'clamp(13px,2vw,17px) clamp(28px,4vw,44px)',

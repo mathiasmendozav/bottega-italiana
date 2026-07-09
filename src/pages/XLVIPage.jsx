@@ -155,7 +155,7 @@ function Hero() {
               <span style={{ fontFamily: SERIF, fontStyle: 'italic',
                 fontSize: 'clamp(2rem,4.5vw,3.2rem)', color: COLORS.gold,
                 fontWeight: 300, lineHeight: 1 }}>
-                293,000
+                0
               </span>
               <span style={{ fontSize: '14px', color: `${COLORS.snow}90`,
                 fontFamily: SANS, letterSpacing: '2px', fontWeight: 600 }}>
@@ -175,7 +175,7 @@ function Hero() {
             style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}
           >
             <motion.a
-              href="https://wa.me/59178594506?text=Hola!%20Me%20interesa%20la%20m%C3%A1quina%20XLVI%20Steamhammer%20X"
+              href="https://wa.me/59178006639?text=Hola!%20Me%20interesa%20la%20m%C3%A1quina%20XLVI%20Steamhammer%20X"
               target="_blank" rel="noopener noreferrer"
               whileHover={{ scale: 1.04, boxShadow: `0 10px 30px ${COLORS.green}50` }}
               whileTap={{ scale: 0.96 }}
@@ -448,7 +448,7 @@ function SpecsSection() {
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
                 <span style={{ fontFamily: SERIF, fontStyle: 'italic',
                   fontSize: 'clamp(1.8rem,4vw,2.8rem)', color: COLORS.gold, fontWeight: 300, lineHeight: 1 }}>
-                  293,000
+                  0
                 </span>
                 <span style={{ fontSize: '13px', color: `${COLORS.snow}90`,
                   fontFamily: SANS, letterSpacing: '2px', fontWeight: 600 }}>Bs.</span>
@@ -608,7 +608,7 @@ function CTA() {
         </h2>
         <div style={{ fontSize: 'clamp(1.5rem,4vw,2.5rem)', fontFamily: SERIF,
           fontStyle: 'italic', color: `${COLORS.black}90`, marginBottom: '16px' }}>
-          $30,000 USD
+          0 Bs.
         </div>
         <p style={{ fontSize: '14px', color: `${COLORS.black}BB`, lineHeight: 1.9,
           marginBottom: '36px', fontFamily: SANS, maxWidth: '480px', margin: '0 auto 36px' }}>
@@ -616,7 +616,7 @@ function CTA() {
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <motion.a
-            href="https://wa.me/59178594506?text=Hola!%20Me%20interesa%20la%20m%C3%A1quina%20XLVI%20Steamhammer%20X"
+            href="https://wa.me/59178006639?text=Hola!%20Me%20interesa%20la%20m%C3%A1quina%20XLVI%20Steamhammer%20X"
             target="_blank" rel="noopener noreferrer"
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
             style={{ background: COLORS.black, color: COLORS.snow,

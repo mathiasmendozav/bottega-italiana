@@ -565,7 +565,7 @@ function ContactCTA() {
         </p>
 
         <motion.a
-          href="https://wa.me/59178594506" target="_blank" rel="noopener noreferrer"
+          href="https://wa.me/59178006639" target="_blank" rel="noopener noreferrer"
           whileHover={{ scale: 1.06, boxShadow: `0 14px 40px #0C7A2A66` }}
           whileTap={{ scale: 0.95 }}
           style={{ display: 'inline-block', background: '#0C7A2A',
